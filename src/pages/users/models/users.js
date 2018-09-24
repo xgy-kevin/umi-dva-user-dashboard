@@ -39,6 +39,10 @@ export default {
       const page = yield select(state => state.users.page);
       yield put({ type: 'fetch', payload: { page } });
     },
+    *test({ payload }, { call, put, select }) {
+      const { data } = yield call(usersService.test, payload);
+      yield put({ type: "setTest", payload: data })
+    }
   },
   subscriptions: {
     setup({ dispatch, history }) {

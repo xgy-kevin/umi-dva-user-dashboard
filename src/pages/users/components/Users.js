@@ -5,7 +5,7 @@ import styles from './Users.css';
 import { PAGE_SIZE } from '../constants';
 import UserModal from './UserModal';
 
-function Users({ dispatch, list: dataSource, loading, total, page: current }) {
+function Users({ dispatch, list: dataSource, loading, total, page: current, size: pageSize }) {
   function deleteHandler(id) {
     dispatch({
       type: 'users/remove',
@@ -13,7 +13,7 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
     });
   }
 
-  function pageChangeHandler(page) {
+  function pageChangeHandler(page, pageSize) {
     dispatch(routerRedux.push({
       pathname: '/users',
       query: { page },
@@ -32,6 +32,13 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
       type: 'users/create',
       payload: values,
     });
+  }
+
+  function test() {
+    dispatch({
+      type: "users/test",
+      payload: "1"
+    })
   }
 
   const columns = [
@@ -74,6 +81,7 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
           <UserModal record={{}} onOk={createHandler}>
             <Button type="primary">Create User</Button>
           </UserModal>
+          <a onClick={test}>only test</a>
         </div>
         <Table
           loading={loading}
@@ -86,8 +94,10 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
           className="ant-table-pagination"
           total={total}
           current={current}
-          pageSize={PAGE_SIZE}
-          onChange={pageChangeHandler}
+          pageSize={10}
+          pageSizeOptions={["2","3","5","10"]}
+          showSizeChanger
+          onShowSizeChange={pageChangeHandler}
         />
       </div>
     </div>
